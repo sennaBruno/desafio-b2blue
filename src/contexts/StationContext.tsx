@@ -2,6 +2,7 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 import { Station } from '../types/station';
 import { mockStations } from '../services/stationService';
 import { OCCUPANCY_THRESHOLD } from '../constants';
+import { useNotification } from './NotificationContext';
 
 interface StationContextData {
   stations: Station[];
@@ -19,8 +20,12 @@ interface StationProviderProps {
 export function StationProvider({ children }: StationProviderProps) {
   const [stations, setStations] = useState<Station[]>(mockStations);
   const [alerts, setAlerts] = useState<{ [key: number]: boolean }>({});
+  const { showNotification } = useNotification();
 
   const updateStationOccupancy = (stationId: number, newValue: number) => {
+    const station = stations.find((s) => s.id === stationId);
+    const previousValue = station?.occupancyPercentage || 0;
+
     setStations((prevStations) =>
       prevStations.map((station) =>
         station.id === stationId
@@ -33,8 +38,14 @@ export function StationProvider({ children }: StationProviderProps) {
       )
     );
 
-    if (newValue >= OCCUPANCY_THRESHOLD) {
+    if (previousValue < OCCUPANCY_THRESHOLD && newValue >= OCCUPANCY_THRESHOLD) {
       setAlerts((prev) => ({ ...prev, [stationId]: true }));
+      showNotification(
+        `Pedido de coleta gerado para ${station?.name}! Nível crítico de ocupação.`,
+        'warning'
+      );
+    } else if (previousValue >= OCCUPANCY_THRESHOLD && newValue < OCCUPANCY_THRESHOLD) {
+      setAlerts((prev) => ({ ...prev, [stationId]: false }));
     }
   };
 
@@ -47,6 +58,9 @@ export function StationProvider({ children }: StationProviderProps) {
       )
     );
     setAlerts((prev) => ({ ...prev, [stationId]: false }));
+
+    const station = stations.find((s) => s.id === stationId);
+    showNotification(`Coleta realizada com sucesso em ${station?.name}!`, 'success');
   };
 
   return (
