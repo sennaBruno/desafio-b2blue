@@ -1,4 +1,5 @@
-import { Container, CssBaseline, ThemeProvider, createTheme, Box, Typography } from '@mui/material';
+import { Container, CssBaseline, ThemeProvider, createTheme, Box } from '@mui/material';
+import { PainelControle } from './components/PainelControle';
 
 const theme = createTheme({
   palette: {
@@ -20,9 +21,7 @@ function App() {
       <CssBaseline />
       <Container maxWidth="lg">
         <Box sx={{ my: 4 }}>
-          <Typography variant="h3" component="h1" gutterBottom align="center">
-            Sistema de Controle de Resíduos
-          </Typography>
+          <PainelControle />
         </Box>
       </Container>
     </ThemeProvider>
