@@ -5,6 +5,7 @@ import { OCCUPANCY_THRESHOLD } from '../constants';
 import { useNotification } from './NotificationContext';
 import { actionService } from '../services/actionService';
 import { Action } from '../types/action';
+import { storageService } from '../services/storageService';
 
 interface StationContextData {
   stations: Station[];
@@ -30,14 +31,32 @@ interface StationProviderProps {
  * - Notificações do sistema
  */
 export function StationProvider({ children }: StationProviderProps) {
-  const [stations, setStations] = useState<Station[]>(mockStations);
-  const [alerts, setAlerts] = useState<{ [key: number]: boolean }>({});
-  const [actions, setActions] = useState<Action[]>([]);
+  const [stations, setStations] = useState<Station[]>(() => {
+    const stored = storageService.getStations();
+    return stored || mockStations;
+  });
+
+  const [alerts, setAlerts] = useState<{ [key: number]: boolean }>(() => {
+    return storageService.getAlerts();
+  });
+
+  const [actions, setActions] = useState<Action[]>(() => {
+    return storageService.getActions();
+  });
+
   const { showNotification } = useNotification();
 
   useEffect(() => {
-    setActions(actionService.getActions());
-  }, []);
+    storageService.saveStations(stations);
+  }, [stations]);
+
+  useEffect(() => {
+    storageService.saveAlerts(alerts);
+  }, [alerts]);
+
+  useEffect(() => {
+    storageService.saveActions(actions);
+  }, [actions]);
 
   const updateStationOccupancy = (stationId: number, newValue: number) => {
     const station = stations.find((s) => s.id === stationId);

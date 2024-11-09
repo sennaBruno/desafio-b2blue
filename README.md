@@ -11,6 +11,7 @@ Sistema de monitoramento e controle de estações de resíduos, desenvolvido com
 - Confirmação de coleta com diálogo de confirmação
 - Histórico de ações e coletas
 - Interface responsiva e intuitiva
+- Persistência local de dados entre sessões
 
 ## Tecnologias Utilizadas
 
@@ -19,6 +20,17 @@ Sistema de monitoramento e controle de estações de resíduos, desenvolvido com
 - Material-UI
 - Vite
 - ESLint + Prettier
+- LocalStorage API
+
+## Armazenamento Local
+
+O sistema utiliza o LocalStorage para persistir:
+
+- Estado atual das estações
+- Histórico de ações
+- Status dos alertas
+
+Isso garante que os dados sejam mantidos mesmo após o fechamento do navegador ou recarregamento da página.
 
 ## Configuração do Ambiente
 
