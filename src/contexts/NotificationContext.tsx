@@ -11,6 +11,19 @@ interface NotificationProviderProps {
   children: ReactNode;
 }
 
+/**
+ * Contexto de Notificações
+ *
+ * Gerencia o sistema de notificações da aplicação.
+ * Funcionalidades:
+ * - Exibição de mensagens temporárias
+ * - Diferentes tipos de alertas (sucesso, aviso, erro)
+ * - Posicionamento consistente das notificações
+ *
+ * @example
+ * const { showNotification } = useNotification();
+ * showNotification('Operação realizada com sucesso', 'success');
+ */
 export function NotificationProvider({ children }: NotificationProviderProps) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');

@@ -1,12 +1,38 @@
-export const stationCardStyles = {
-  transition: 'all 0.3s ease',
-  '&:hover': {
-    transform: 'translateY(-5px)',
-    boxShadow: 6,
-  },
-};
+import { createTheme } from '@mui/material';
+import { green, lightGreen, grey } from '@mui/material/colors';
 
-export const progressBarStyles = {
-  height: 10,
-  borderRadius: 5,
-};
+export const theme = createTheme({
+  palette: {
+    primary: {
+      main: green[700],
+      light: green[400],
+      dark: green[900],
+    },
+    secondary: {
+      main: lightGreen[400],
+      light: lightGreen[200],
+      dark: lightGreen[700],
+    },
+    background: {
+      default: grey[50],
+      paper: '#ffffff',
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          textTransform: 'none',
+        },
+      },
+    },
+    MuiAlert: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
+      },
+    },
+  },
+});

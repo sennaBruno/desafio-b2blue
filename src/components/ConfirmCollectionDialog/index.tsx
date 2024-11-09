@@ -14,6 +14,20 @@ interface ConfirmCollectionDialogProps {
   onConfirm: () => void;
 }
 
+/**
+ * Componente ConfirmCollectionDialog
+ *
+ * Modal de confirmação para ações de coleta.
+ * Características:
+ * - Feedback visual claro da ação
+ * - Opções de confirmar/cancelar
+ * - Mensagem personalizada por estação
+ *
+ * @param {boolean} open - Controle de visibilidade do diálogo
+ * @param {string} stationName - Nome da estação para personalização da mensagem
+ * @param {Function} onClose - Callback para fechar o diálogo
+ * @param {Function} onConfirm - Callback para confirmar a ação
+ */
 export function ConfirmCollectionDialog({
   open,
   stationName,

@@ -1,21 +1,8 @@
-import { Container, CssBaseline, ThemeProvider, createTheme, Box } from '@mui/material';
+import { Container, CssBaseline, ThemeProvider, Box } from '@mui/material';
 import { PainelControle } from './components/PainelControle';
 import { StationProvider } from './contexts/StationContext';
 import { NotificationProvider } from './contexts/NotificationContext';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#2e7d32',
-    },
-    secondary: {
-      main: '#81c784',
-    },
-    background: {
-      default: '#f5f5f5',
-    },
-  },
-});
+import { theme } from './styles/theme';
 
 function App() {
   return (

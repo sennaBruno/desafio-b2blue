@@ -1,9 +1,19 @@
 import { Grid, Box, Typography } from '@mui/material';
 import { EstacaoArmazenamento } from '../EstacaoArmazenamento';
 import { useStation } from '../../contexts/StationContext';
+import { ActionHistory } from '../ActionHistory';
 
+/**
+ * Componente PainelControle
+ *
+ * Componente principal que gerencia a exibição e organização de todas as estações de resíduos.
+ * Responsável por:
+ * - Layout responsivo das estações
+ * - Integração com o contexto global
+ * - Exibição do histórico de ações
+ */
 export function PainelControle() {
-  const { stations, alerts, updateStationOccupancy, confirmCollection } = useStation();
+  const { stations, alerts, actions, updateStationOccupancy, confirmCollection } = useStation();
 
   return (
     <Box sx={{ width: '100%', p: { xs: 2, sm: 3 } }}>
@@ -30,6 +40,8 @@ export function PainelControle() {
           </Grid>
         ))}
       </Grid>
+
+      <ActionHistory actions={actions} />
     </Box>
   );
 }

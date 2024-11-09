@@ -1,50 +1,103 @@
-# React + TypeScript + Vite
+# Sistema de Controle de Estações de Resíduos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Sobre o Projeto
 
-Currently, two official plugins are available:
+Sistema de monitoramento e controle de estações de resíduos, desenvolvido com React, TypeScript e Material-UI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Funcionalidades
 
-## Expanding the ESLint configuration
+- Monitoramento em tempo real do nível de ocupação
+- Sistema de alertas automáticos
+- Confirmação de coleta com diálogo de confirmação
+- Histórico de ações e coletas
+- Interface responsiva e intuitiva
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Tecnologias Utilizadas
 
-- Configure the top-level `parserOptions` property like this:
+- React 18
+- TypeScript
+- Material-UI
+- Vite
+- ESLint + Prettier
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Configuração do Ambiente
+
+### Pré-requisitos
+
+- Node.js (versão 16 ou superior)
+- npm ou yarn
+
+### Instalação
+
+1. Clone o repositório
+
+```bash
+git clone https://github.com/sennaBruno/desafio-b2blue.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. Instale as dependências
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm install
 ```
+
+3. Execute o projeto
+
+```bash
+npm run dev
+```
+
+## Estrutura do Projeto
+
+```
+src/
+├── components/ # Componentes React
+├── contexts/ # Contextos da aplicação
+├── services/ # Serviços e APIs simuladas
+├── types/ # Tipos TypeScript
+├── constants/ # Constantes da aplicação
+└── styles/ # Estilos e tema
+```
+
+## Componentes Principais
+
+### EstacaoArmazenamento
+
+Componente responsável por exibir e controlar uma estação de resíduos individual.
+
+- Controle de ocupação via slider
+- Alertas visuais
+- Confirmação de coleta
+
+### PainelControle
+
+Componente principal que gerencia todas as estações.
+
+- Layout responsivo
+- Distribuição das estações
+- Histórico de ações
+
+### ActionHistory
+
+Exibe o histórico de todas as ações realizadas no sistema.
+
+- Registro de alertas
+- Registro de coletas
+- Ordenação cronológica
+
+## Contextos
+
+### StationContext
+
+Gerencia o estado global das estações.
+
+- Lista de estações
+- Sistema de alertas
+- Registro de ações
+
+### NotificationContext
+
+Gerencia as notificações do sistema.
+
+- Feedback visual
+- Mensagens de sucesso/erro
