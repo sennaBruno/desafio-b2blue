@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { Snackbar, Alert } from '@mui/material';
+import { Snackbar, Alert, Fade } from '@mui/material';
 
 interface NotificationContextData {
   showNotification: (message: string, type?: 'success' | 'warning' | 'error') => void;
@@ -11,19 +11,6 @@ interface NotificationProviderProps {
   children: ReactNode;
 }
 
-/**
- * Contexto de Notificações
- *
- * Gerencia o sistema de notificações da aplicação.
- * Funcionalidades:
- * - Exibição de mensagens temporárias
- * - Diferentes tipos de alertas (sucesso, aviso, erro)
- * - Posicionamento consistente das notificações
- *
- * @example
- * const { showNotification } = useNotification();
- * showNotification('Operação realizada com sucesso', 'success');
- */
 export function NotificationProvider({ children }: NotificationProviderProps) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
@@ -38,8 +25,23 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (_: any, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
     setOpen(false);
+  };
+
+  const getAutoHideDuration = (type: 'success' | 'warning' | 'error') => {
+    switch (type) {
+      case 'warning':
+        return 5000;
+      case 'success':
+      case 'error':
+        return 3000;
+      default:
+        return 3000;
+    }
   };
 
   return (
@@ -47,11 +49,37 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
       {children}
       <Snackbar
         open={open}
-        autoHideDuration={6000}
+        autoHideDuration={getAutoHideDuration(severity)}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        ClickAwayListenerProps={{ onClickAway: () => null }}
+        TransitionComponent={Fade}
+        TransitionProps={{
+          enter: true,
+          exit: true,
+          timeout: {
+            enter: 400,
+            exit: 300,
+          },
+        }}
+        sx={{
+          '& .MuiSnackbarContent-root': {
+            transition: 'all 0.3s ease-in-out',
+            transform: open ? 'translateY(0)' : 'translateY(-20px)',
+          },
+        }}
       >
-        <Alert onClose={handleClose} severity={severity} variant="filled">
+        <Alert
+          onClose={() => setOpen(false)}
+          severity={severity}
+          variant="filled"
+          sx={{
+            minWidth: '300px',
+            transition: 'all 0.3s ease-in-out',
+            opacity: open ? 1 : 0,
+            transform: open ? 'scale(1)' : 'scale(0.95)',
+          }}
+        >
           {message}
         </Alert>
       </Snackbar>
@@ -59,10 +87,4 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
   );
 }
 
-export function useNotification() {
-  const context = useContext(NotificationContext);
-  if (!context) {
-    throw new Error('useNotification must be used within a NotificationProvider');
-  }
-  return context;
-}
+export const useNotification = () => useContext(NotificationContext);
