@@ -3,9 +3,10 @@ import { Station } from '../types/station';
 import { mockStations } from '../services/stationService';
 import { OCCUPANCY_THRESHOLD } from '../constants';
 import { useNotification } from './NotificationContext';
-import { actionService } from '../services/actionService';
 import { Action } from '../types/action';
 import { storageService } from '../services/storageService';
+import { MESSAGES } from '../constants/messages';
+import { actionService } from '../services/actionService';
 
 interface StationContextData {
   stations: Station[];
@@ -83,10 +84,7 @@ export function StationProvider({ children }: StationProviderProps) {
         occupancyPercentage: newValue,
       });
       setActions(actionService.getActions());
-      showNotification(
-        `Pedido de coleta gerado para ${station?.name}! Nível crítico de ocupação.`,
-        'warning'
-      );
+      showNotification(MESSAGES.COLLECTION_ALERT(station?.name || ''), 'warning');
     } else if (previousValue >= OCCUPANCY_THRESHOLD && newValue < OCCUPANCY_THRESHOLD) {
       setAlerts((prev) => ({ ...prev, [stationId]: false }));
     }
@@ -111,7 +109,7 @@ export function StationProvider({ children }: StationProviderProps) {
       occupancyPercentage: currentOccupancy,
     });
     setActions(actionService.getActions());
-    showNotification(`Coleta realizada com sucesso em ${station?.name}!`, 'success');
+    showNotification(MESSAGES.COLLECTION_SUCCESS(station?.name || ''), 'success');
   };
 
   return (

@@ -82,10 +82,13 @@ export function EstacaoArmazenamento({
               color:
                 station.occupancyPercentage >= OCCUPANCY_THRESHOLD ? 'error.main' : 'primary.main',
               '& .MuiSlider-thumb': {
-                transition: 'transform 0.2s',
+                transition: 'all 0.2s ease-in-out',
                 '&:hover': {
-                  transform: 'scale(1.2)',
+                  boxShadow: '0 0 0 8px rgba(25, 118, 210, 0.16)',
                 },
+              },
+              '& .MuiSlider-track': {
+                transition: 'all 0.2s ease-in-out',
               },
             }}
           />
